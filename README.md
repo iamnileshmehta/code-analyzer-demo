@@ -33,7 +33,7 @@ code-analyzer-demo/
 │
 ├── analyze.py # Entry point that coordinates analysis
 ├── extractor.py # Extracts functions, classes, and imports
-├── relationships.py # Analyzes function call relationships
+├── connector.py # Analyzes function call relationships
 ├── output.py # Formats and prints results
 ├── example-output/ # Sample outputs
 └── README.md
@@ -42,3 +42,4 @@ code-analyzer-demo/
 ```bash
 python analyze.py
 ```
+
