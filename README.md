@@ -40,6 +40,7 @@ code-analyzer-demo/
 ```
 
 ```bash
-python analyze.py
+python analyzer.py
 ```
+
 
