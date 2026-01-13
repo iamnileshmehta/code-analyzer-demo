@@ -28,6 +28,7 @@ AST allows us to reason about *what the code contains*, not *what it does at run
 
 ## Project Structure
 
+```
 code-analyzer-demo/
 │
 ├── analyze.py # Entry point that coordinates analysis
@@ -36,6 +37,8 @@ code-analyzer-demo/
 ├── output.py # Formats and prints results
 ├── example-output/ # Sample outputs
 └── README.md
+```
 
 ```bash
 python analyze.py
+```
