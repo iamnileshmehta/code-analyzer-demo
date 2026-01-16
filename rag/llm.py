@@ -1,17 +1,24 @@
 import subprocess
 
-def call_llm(prompt: str, model: str = "llama3.1:8b") -> str:
-    """
-    Calls a local Ollama model to generate text from a prompt.
-    """
+def call_llm(prompt: str, model: str = "qwen2.5:3b") -> str:
     try:
-        # Ollama CLI: use 'run' instead of 'generate'
         result = subprocess.run(
-            ["ollama", "run", model, "--prompt", prompt],
-            capture_output=True,
+            ["ollama", "run", model],
+            input=prompt,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             text=True,
-            check=True
+            encoding="utf-8",
+            errors="ignore"   # 🔑 CRITICAL FIX
         )
+
+        if result.returncode != 0:
+            return f"[LLM ERROR]: {result.stderr.strip()}"
+
         return result.stdout.strip()
-    except subprocess.CalledProcessError as e:
-        return f"[LLM ERROR]: {e.stderr}"
+
+    except Exception as e:
+        return f"[LLM ERROR]: {str(e)}"
+
+
+
