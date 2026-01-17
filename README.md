@@ -1,4 +1,4 @@
-## Code intelligence and modernization platform (Python AST + RAG)
+# Code Intelligence and Modernization Platform (Python AST + RAG)
 <br>
 <hr>
 
@@ -119,5 +119,6 @@ python analyzer.py erpnext/accounts/doctype/sales_invoice
 This project focuses on structural analysis, not runtime behavior.
 
 Dynamic features (reflection, monkey-patching) are not evaluated.
+
 
 
