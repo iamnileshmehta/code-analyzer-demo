@@ -1,25 +1,29 @@
-def build_translation_prompt(
-    target_language: str,
-    knowledge_objects
-):
-    context = "\n\n".join([
-        f"Function: {ko.name}\nCode:\n{ko.code}"
-        for ko in knowledge_objects
-    ])
-
+def build_translation_prompt(target_language, relevant_kos):
     return f"""
-You are a software modernization tool.
+You are an enterprise code modernization engine.
 
-Your task:
-- Translate the following Python legacy logic into {target_language}
-- Preserve business logic exactly
-- Use idiomatic {target_language}
-- Do NOT change behavior
+Rules:
+- Translate Python functions into {target_language}
+- Preserve logic EXACTLY
+- Do not refactor or optimize
+- Do not change function signatures
+- Output VALID JSON ONLY
+- No markdown
+- No extra text
 
-Legacy code context:
-{context}
+JSON schema:
+{{
+  "language": "{target_language}",
+  "functions": [
+    {{
+      "name": "string",
+      "signature": "string",
+      "code": "string",
+      "explanation": "string"
+    }}
+  ]
+}}
 
-Output ONLY valid {target_language} code.
+Functions to translate:
+{relevant_kos}
 """
-
-

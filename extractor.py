@@ -1,6 +1,9 @@
 import ast
 
-def extract_entities(tree, source_code):
+def get_docstring(node):
+    return ast.get_docstring(node)
+
+def extract_entities(tree, file_path):
     functions = []
     classes = []
     imports = []
@@ -8,13 +11,20 @@ def extract_entities(tree, source_code):
     for node in ast.walk(tree):
         if isinstance(node, ast.FunctionDef):
             functions.append({
-    "name": node.name,
-    "code": ast.get_source_segment(source_code, node),
-    "imports": []
-})
+        "name": node.name,
+        "code": ast.unparse(node),
+        "docstring": get_docstring(node),
+        "line": node.lineno,
+        "file": file_path
+    })
 
         elif isinstance(node, ast.ClassDef):
-            classes.append(node.name)
+            classes.append({
+        "name": node.name,
+        "docstring": get_docstring(node),
+        "line": node.lineno,
+        "file": file_path
+    })
 
         elif isinstance(node, (ast.Import, ast.ImportFrom)):
             for alias in node.names:

@@ -1,3 +1,6 @@
+from out.mermaid import to_mermaid
+
+
 def display_results(entities, relationships):
     print("\n📌 FUNCTIONS:")
     for f in entities["functions"]:
@@ -14,3 +17,9 @@ def display_results(entities, relationships):
     print("\n📌 FUNCTION CALL RELATIONSHIPS:")
     for func, calls in relationships.items():
         print(f" {func} → {calls}")
+
+    mermaid_graph = to_mermaid(relationships)
+    with open("callgraph.md", "w") as f:
+        f.write(mermaid_graph)
+
+    print("\n📊 Mermaid call graph written to callgraph.md")
