@@ -1,12 +1,15 @@
 ## Code intelligence and modernization platform (Python AST + RAG)
 <br>
 <hr>
+
 # Overview
+
 <br>
 This project is a static Python code analyzer and modernization assistant built using Python’s built-in AST (Abstract Syntax Tree) module.
 <br>
 It analyzes Python source code without executing it, extracts structural knowledge, builds call relationships, and enables:
 <hr>
+
 # Code understanding
 
 - Call graph extraction<br>
@@ -15,6 +18,7 @@ It analyzes Python source code without executing it, extracts structural knowled
 
 The system is designed with clean modular architecture, inspired by real-world static analysis and compiler pipelines.
 <hr>
+
 # Core Capabilities
 
 🔍 Static Code Analysis (AST-based)
@@ -28,38 +32,26 @@ The analyzer extracts:
 ✅ File-level metadata<br>
 
 This enables:
-
-Dependency understanding
-
-Impact analysis
-
-Visualization (Mermaid-ready)
-
-🧠 Knowledge Layer (RAG-ready)
+- Dependency understanding
+- Impact analysis
+- Visualization (Mermaid-ready)
+- 🧠 Knowledge Layer (RAG-ready)
 
 Extracted entities are converted into Knowledge Objects containing:
-
-Name
-
-Type (function / class)
-
-Source code
-
-Summary
-
-Relationships
-
-File path
+- Name
+- Type (function / class)
+- Source code
+- Summary
+- Relationships
+- File path
 
 These objects are:
-
-Embedded
-
-Stored in a vector store
-
-Retrieved via semantic queries
+- Embedded
+- Stored in a vector store
+- Retrieved via semantic queries
 
 <hr>
+
 # 🔁 Legacy Code Translation (LLM-powered)
 
 The system supports language translation of legacy Python code, using retrieved context.
@@ -69,13 +61,19 @@ Example:
 - Python → TypeScript
 - Python → Java
 - Python → C++
+  
 <hr>
+
 # Design goals:
+
 - Preserve business logic exactly
 - Context-aware translation via RAG
 - Each layer has single responsibility and can be extended independently.
+ 
 <hr>
+
 # Why AST (Not Regex or Execution)?
+
 <br>Using Python AST allows the analyzer to:
 
 ✔ Reliably inspect real code structure
@@ -85,9 +83,11 @@ Example:
 ✔ Avoid running untrusted or unsafe code
 
 ✔ Scale to large codebases (ERPNext, Django, etc.)
+
 <hr>
 
 # Usage
+
 Analyze a single file
 ```
 python analyzer.py sample.py
@@ -98,6 +98,7 @@ git clone https://github.com/frappe/erpnext
 python analyzer.py erpnext/accounts/doctype/sales_invoice
 ```
 <hr>
+
 # Extensibility Ideas
 
 📈 Mermaid call graph visualization
@@ -116,5 +117,7 @@ python analyzer.py erpnext/accounts/doctype/sales_invoice
 # Disclaimer
 <br>
 This project focuses on structural analysis, not runtime behavior.
+
 Dynamic features (reflection, monkey-patching) are not evaluated.
+
 
