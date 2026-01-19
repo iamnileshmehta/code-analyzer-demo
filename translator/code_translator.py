@@ -1,4 +1,4 @@
-from rag.json_guard import parse_or_retry
+
 from rag.retriever import retrieve_relevant_code
 from translator.prompt_builder import build_translation_prompt
 from rag.llm import call_llm

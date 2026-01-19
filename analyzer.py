@@ -108,11 +108,19 @@ def run_demo_queries(vector_store):
 
 if __name__ == "__main__":
     import sys
+    analyze_code("sample.py")
 
-    target_path = sys.argv[1]
-    py_files = get_python_files(target_path)
 
-    for file in py_files:
-        print(f"Analyzing: {file}")
-        analyze_code(file)
+
+
+
+
+
+
+    # target_path = sys.argv[1]
+    # py_files = get_python_files(target_path)
+
+    # for file in py_files:
+    #     print(f"Analyzing: {file}")
+    #     analyze_code(file)
 
