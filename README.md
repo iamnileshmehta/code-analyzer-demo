@@ -1,46 +1,124 @@
-﻿# code-analyzer
+# Code Intelligence and Modernization Platform (Python AST + RAG)
+<br>
+<hr>
 
-# Code Analyzer (Python AST)
+# Overview
 
-## Overview
-This project is a **simple Python code analyzer** built using Python’s built-in `ast` (Abstract Syntax Tree) module.  
-The goal of this project is to **understand and analyze Python code structure programmatically**, rather than executing it.
+<br>
+This project is a static Python code analyzer and modernization assistant built using Python’s built-in AST (Abstract Syntax Tree) module.
+<br>
+It analyzes Python source code without executing it, extracts structural knowledge, builds call relationships, and enables:
+<hr>
 
-The analyzer identifies:
-- Functions
-- Classes
-- Imports
-- Basic function call relationships
+# Code understanding
 
-This project focuses on **clarity, explainability, and clean design**, making it easy to understand and extend.
+- Call graph extraction<br>
+- Knowledge indexing (RAG)<br>
+- Legacy code translation to modern languages (TypeScript, Java, C++, etc.)<br>
 
----
+The system is designed with clean modular architecture, inspired by real-world static analysis and compiler pipelines.
+<hr>
 
-## Why AST?
-Instead of parsing code as plain text, this project uses Python’s AST to:
-- Reliably inspect code structure
-- Understand functions and calls safely
-- Avoid execution of untrusted code
+# Core Capabilities
 
-AST allows us to reason about *what the code contains*, not *what it does at runtime*.
+🔍 Static Code Analysis (AST-based)
+<br>
+The analyzer extracts:
+<br>
+✅ Functions (name, signature, source code)<br>
+✅ Classes<br>
+✅ Imports<br>
+✅ Function call relationships (who calls whom)<br>
+✅ File-level metadata<br>
 
----
+This enables:
+- Dependency understanding
+- Impact analysis
+- Visualization (Mermaid-ready)
+- 🧠 Knowledge Layer (RAG-ready)
 
-## Project Structure
+Extracted entities are converted into Knowledge Objects containing:
+- Name
+- Type (function / class)
+- Source code
+- Summary
+- Relationships
+- File path
 
+These objects are:
+- Embedded
+- Stored in a vector store
+- Retrieved via semantic queries
+
+<hr>
+
+# 🔁 Legacy Code Translation (LLM-powered)
+
+The system supports language translation of legacy Python code, using retrieved context.
+
+Example:
+
+- Python → TypeScript
+- Python → Java
+- Python → C++
+  
+<hr>
+
+# Design goals:
+
+- Preserve business logic exactly
+- Context-aware translation via RAG
+- Each layer has single responsibility and can be extended independently.
+ 
+<hr>
+
+# Why AST (Not Regex or Execution)?
+
+<br>Using Python AST allows the analyzer to:
+
+✔ Reliably inspect real code structure
+
+✔ Understand function boundaries and calls
+
+✔ Avoid running untrusted or unsafe code
+
+✔ Scale to large codebases (ERPNext, Django, etc.)
+
+<hr>
+
+# Usage
+
+Analyze a single file
 ```
-code-analyzer-demo/
-│
-├── analyze.py # Entry point that coordinates analysis
-├── extractor.py # Extracts functions, classes, and imports
-├── connector.py # Analyzes function call relationships
-├── output.py # Formats and prints results
-├── example-output/ # Sample outputs
-└── README.md
+python analyzer.py sample.py
 ```
+Analyze a real codebase (example: ERPNext)
+```
+git clone https://github.com/frappe/erpnext
+python analyzer.py erpnext/accounts/doctype/sales_invoice
+```
+<hr>
 
-```bash
-python analyzer.py
-```
+# Extensibility Ideas
+
+📈 Mermaid call graph visualization
+
+🧾 Docstring-based business logic extraction
+
+🧠 Cross-file dependency resolution
+
+🔍 Dead code detection
+
+🏗️ Large-scale monorepo indexing
+
+🔁 Multi-language reverse translation
+<hr>
+
+# Disclaimer
+<br>
+This project focuses on structural analysis, not runtime behavior.
+
+Dynamic features (reflection, monkey-patching) are not evaluated.
+
 
 
