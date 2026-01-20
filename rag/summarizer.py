@@ -1,6 +1,4 @@
-import os
-from rag.llm import call_llm    
-
+from rag.llm import call_llm
 
 def summarize_function(code: str, name: str) -> str:
     """
@@ -8,7 +6,7 @@ def summarize_function(code: str, name: str) -> str:
     """
 
     prompt = f"""
-Summarize the following function:
+You are analyzing a Python function.
 
 Function name: {name}
 
@@ -16,13 +14,13 @@ Code:
 {code}
 
 Task:
-- Describe what this function does in 2–3 sentences.
+- Describe what this function does in 1–2 sentences.
 - Do NOT assume anything not present in the code.
 - Do NOT suggest improvements.
 - Do NOT mention variable names unless relevant.
 """
 
-    # call LLM here to get the summary
+    # call LLM here (OpenAI / Gemini / Claude)
     summary = call_llm(prompt)
 
-    return summary
+    return summary.strip()

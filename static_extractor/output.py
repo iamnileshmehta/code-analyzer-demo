@@ -1,4 +1,4 @@
-from out.mermaid import to_mermaid
+from mermaid_graph.mermaid import to_mermaid
 
 
 def display_results(entities, relationships):

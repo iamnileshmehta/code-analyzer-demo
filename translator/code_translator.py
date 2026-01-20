@@ -1,27 +1,24 @@
 
 from rag.retriever import retrieve_relevant_code
-from translator.prompt_builder import build_translation_prompt
+from knowledge.builder import build_knowledge
+from translator.ir_builder import build_ir
+from translator.prompt_builder import generate_code
 from rag.llm import call_llm
 from rag.embedder import embed_text
 
 def translate_code(
     user_request: str,
     target_language: str,
-    vector_store
+    vector_store,
+    call_graph=None
 ):
     query_vec = embed_text(user_request)
     relevant_kos = vector_store.search(query_vec, top_k=5)
 
 
-    prompt = build_translation_prompt(
-        target_language,
-        relevant_kos
-    )
+    ir_module = build_ir(knowledge_objects=relevant_kos,
+        call_graph=call_graph
+        )
+    prompt = generate_code(ir_module, target_language)
 
-    result = parse_or_retry(
-        llm_call_fn=call_llm,
-        base_prompt=prompt,
-        max_retries=3
-    )
-
-    return result
+    return prompt

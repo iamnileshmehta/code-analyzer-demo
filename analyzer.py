@@ -2,9 +2,10 @@ import ast
 import sys
 import os
 
-from extractor import extract_entities
-from connector import extract_relation
-from output import display_results
+from static_extractor.extractor import extract_entities
+from static_extractor.connector import extract_relation
+from static_extractor.output import display_results
+from mermaid_graph.mermaid import to_mermaid
 
 from knowledge.builder import build_knowledge
 
@@ -15,33 +16,22 @@ from rag.vector_store import VectorStore
 from translator.code_translator import translate_code
 
 
-# Initialize vector store once
+# Initialize vector store once (global / app-level)
 vector_store = VectorStore(dim=384)
 
 
-def analyze_code(file_path: str):
-    """
-    End-to-end analysis pipeline:
-    - Parse code
-    - Extract entities & relationships
-    - Build knowledge objects
-    - Summarize & embed
-    - Store in vector DB
-    """
-
-    # 1️⃣ Parse source code
-    with open(file_path, "r", encoding="utf-8") as f:
+def analyze_code(file_path):
+    with open(file_path, "r") as f:
         source_code = f.read()
+        tree = ast.parse(source_code)
 
-    tree = ast.parse(source_code)
-
-    # 2️⃣ Extract structure
+    # 1️⃣ Extract entities
     entities = extract_entities(tree, file_path)
-    relations = extract_relation(tree)
+    functions = entities["functions"]
+    classes = entities["classes"]
 
-    functions = entities.get("functions", [])
-    classes = entities.get("classes", [])
-    call_graph = relations.get("call_graph", {})
+    # 2️⃣ Extract relationships
+    call_graph = extract_relation(tree)
 
     # 3️⃣ Build knowledge layer
     knowledge_objects = build_knowledge(
@@ -51,76 +41,38 @@ def analyze_code(file_path: str):
         file_path=file_path
     )
 
-    # 4️⃣ Summarize + embed knowledge
+    # 4️⃣ Summarize + Embed (RAG indexing)
     for ko in knowledge_objects:
         if ko.type == "function":
             ko.summary = summarize_function(ko.code, ko.name)
 
-        text_for_embedding = f"""
-        Name: {ko.name}
-        Type: {ko.type}
-        Summary: {ko.summary}
-        Code:
-        {ko.code}
-        """
+            # Build embedding text (VERY IMPORTANT)
+            embedding_text = f"""
+            Function Name: {ko.name}
+            Summary: {ko.summary}
+            Code:
+            {ko.code}
+            """
 
-        embedding = embed_text(text_for_embedding)
-        vector_store.add(embedding, ko)
+            vector = embed_text(embedding_text)
+            vector_store.add(vector, ko)
 
-    # 5️⃣ Display extracted results (human-readable)
-    display_results(entities, relations)
+    # 5️⃣ Display analysis results
+    display_results(entities, call_graph)
 
     return vector_store
 
 
-def get_python_files(path):
-    if os.path.isfile(path) and path.endswith(".py"):
-        return [path]
+if __name__ == "__main__":
 
-    py_files = []
-    for root, _, files in os.walk(path):
-        for file in files:
-            if file.endswith(".py"):
-                py_files.append(os.path.join(root, file))
-    return py_files
+    vector_store = analyze_code("sales_invoice.py")
 
-
-def run_demo_queries(vector_store):
-    print("\n🔍 RAG Test Query:")
-    results = vector_store.search(
-        embed_text("How is bullish signal calculated?"),
-        top_k=5
-    )
-
-    for r in results:
-        print(" -", r.name)
-
-    print("\n🌐 Code Translation:")
-    translated = translate_code(
-        user_request="Translate technical signal logic",
+    # 🔹 Example translation request (can be CLI / API later)
+    translated_code = translate_code(
+        user_request="Translate area calculation logic",
         target_language="TypeScript",
         vector_store=vector_store
     )
 
-    print(translated)
-
-
-
-if __name__ == "__main__":
-    import sys
-    analyze_code("sample.py")
-
-
-
-
-
-
-
-
-    # target_path = sys.argv[1]
-    # py_files = get_python_files(target_path)
-
-    # for file in py_files:
-    #     print(f"Analyzing: {file}")
-    #     analyze_code(file)
-
+    print("\n===== TRANSLATED CODE =====\n")
+    print(translated_code)

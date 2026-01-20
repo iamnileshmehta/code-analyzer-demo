@@ -1,29 +1,22 @@
-def build_translation_prompt(target_language, relevant_kos):
-    return f"""
-You are an enterprise code modernization engine.
+from rag.llm import call_llm
+
+
+def generate_code(ir_module, target_language: str) -> str:
+    prompt = f"""
+You are a code analyzer, translator and code modernization tool.
+
+Translate the following intermediate representation (IR)
+into clean, idiomatic {target_language} code.
 
 Rules:
-- Translate Python functions into {target_language}
-- Preserve logic EXACTLY
-- Do not refactor or optimize
-- Do not change function signatures
-- Output VALID JSON ONLY
-- No markdown
-- No extra text
+- Use best practices of {target_language}
+- Use appropriate syntax and conventions
+- Preserve logic and function names
+- Output only code
+- Explain the json structure
 
-JSON schema:
-{{
-  "language": "{target_language}",
-  "functions": [
-    {{
-      "name": "string",
-      "signature": "string",
-      "code": "string",
-      "explanation": "string"
-    }}
-  ]
-}}
-
-Functions to translate:
-{relevant_kos}
+IR:
+{ir_module}
 """
+
+    return call_llm(prompt)
