@@ -65,7 +65,7 @@ def analyze_code(file_path):
 
 if __name__ == "__main__":
 
-    vector_store = analyze_code("sales_invoice.py")
+    vector_store = analyze_code("sample.py")
 
     # 🔹 Example translation request (can be CLI / API later)
     translated_code = translate_code(
