@@ -6,7 +6,7 @@ class KnowledgeObject:
     id: str     #function / class
     type: str
     name: str
-    file: str
+    file_path: str
     code: str
 
     calls: List[str]

@@ -8,7 +8,7 @@ def build_knowledge(functions, classes, relationships, file_path):
             id=f"{file_path}::{func['name']}",
             type="function",
             name=func['name'],
-            file=file_path,
+            file_path=file_path,
             code=func['code'],
             calls=relationships.get(func['name'], []),
             imports=func.get('imports', []),

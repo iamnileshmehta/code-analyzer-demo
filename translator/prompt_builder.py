@@ -3,7 +3,7 @@ from rag.llm import call_llm
 
 def generate_code(ir_module, target_language: str) -> str:
     prompt = f"""
-You are a code analyzer, translator and code modernization tool.
+You are a code analyzer, translator and code modernization platform.
 
 Translate the following intermediate representation (IR)
 into clean, idiomatic {target_language} code.
@@ -13,7 +13,7 @@ Rules:
 - Use appropriate syntax and conventions
 - Preserve logic and function names
 - Output only code
-- Explain the json structure
+- Explain the extracted json format of functions, classes, imports, function call relationships, callgraph in points.
 
 IR:
 {ir_module}

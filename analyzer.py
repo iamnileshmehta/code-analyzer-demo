@@ -56,3 +56,4 @@ if __name__ == "__main__":
     knowledge_objects = analyze_path(user_path)
 
     print(f"\n✅ Analysis complete. Extracted {len(knowledge_objects)} knowledge objects.")
+    
