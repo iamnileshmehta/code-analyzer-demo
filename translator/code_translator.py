@@ -1,6 +1,5 @@
 
 from rag.retriever import retrieve_relevant_code
-from knowledge.builder import build_knowledge
 from translator.ir_builder import build_ir
 from translator.prompt_builder import generate_code
 from rag.llm import call_llm
